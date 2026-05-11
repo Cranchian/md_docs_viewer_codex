@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_TITLE}} — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:            #06030F;
+    --bg-deep:       #040108;
+    --bg-panel:      #0F0820;
+    --bg-elevated:   #1A0F33;
+    --border:        rgba(168, 85, 247, 0.18);
+    --border-strong: rgba(192, 132, 252, 0.35);
+    --accent:        #A855F7;
+    --accent-hi:     #C084FC;
+    --accent-deep:   #7C3AED;
+    --gold:          #FBE5A4;
+    --text-1:        #E9E4F5;
+    --text-2:        #9C8FB8;
+    --text-3:        #6B5F87;
+    --red:           #EF4444;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--bg); color: var(--text-1);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6;
+  }
+  body {
+    /* Subtle vertical gradient — no heavy radial drama */
+    background-image:
+      linear-gradient(180deg, var(--bg) 0%, #0A0518 100%);
+    overflow: hidden; position: relative;
+  }
+  /* Single soft halo behind the card — restrained */
+  body::before {
+    content: '';
+    position: fixed; left: 50%; top: 32%;
+    width: 540px; height: 540px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(168,85,247,0.13), transparent 65%);
+    filter: blur(8px);
+    z-index: 0; pointer-events: none;
+  }
+  .wrap {
+    min-height: 100%; display: grid; place-items: center; padding: 24px;
+    position: relative; z-index: 1;
+  }
+  .card {
+    background: linear-gradient(180deg, rgba(15,8,32,0.92) 0%, rgba(10,5,24,0.92) 100%);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 36px 34px 28px;
+    max-width: 400px; width: 100%;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.04),
+      0 0 0 1px rgba(168,85,247,0.08),
+      0 30px 80px -16px rgba(0,0,0,0.7),
+      0 0 60px rgba(168,85,247,0.10);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  /* Header — sigil + wordmark, matches topbar in app */
+  .brand {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 22px; margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sigil {
+    width: 38px; height: 38px; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 30% 30%, rgba(192,132,252,0.28), rgba(168,85,247,0.05) 60%, transparent 75%);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.04),
+      0 0 24px -4px rgba(168,85,247,0.55);
+    color: var(--accent-hi);
+  }
+  .word { display: flex; flex-direction: column; gap: 5px; line-height: 1; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--accent); opacity: .9;
+  }
+  .wordmark {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 20px;
+    letter-spacing: .18em; text-transform: uppercase;
+    background: linear-gradient(180deg, var(--text-1) 0%, #b8b0d8 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    text-shadow: 0 0 24px rgba(192,132,252,0.22);
+  }
+
+  /* Form */
+  .lead {
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 22px; color: var(--text-1); letter-spacing: -.01em;
+    margin-bottom: 4px;
+  }
+  .lead-sub {
+    font-size: 13px; color: var(--text-2);
+    margin-bottom: 22px;
+  }
+  label {
+    display: block; font-size: 10.5px; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--text-3); margin-top: 16px; margin-bottom: 7px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  input {
+    width: 100%; background: rgba(6,3,15,0.6);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 13px; color: var(--text-1);
+    font: inherit; font-size: 14px; outline: none;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  input::placeholder { color: var(--text-3); }
+  input:focus {
+    border-color: var(--border-strong);
+    box-shadow: 0 0 0 3px rgba(168,85,247,0.18);
+    background: rgba(15,8,32,0.85);
+  }
+  button.submit {
+    width: 100%; margin-top: 24px;
+    height: 44px; padding: 0 16px;
+    background: linear-gradient(180deg, var(--accent-hi) 0%, var(--accent-deep) 100%);
+    color: white; border: 1px solid var(--accent);
+    border-radius: 999px;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 12.5px; letter-spacing: .22em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.18),
+      0 8px 24px -6px rgba(124,58,237,0.55),
+      0 0 22px rgba(168,85,247,0.35);
+    transition: transform .08s, box-shadow .15s, filter .15s;
+  }
+  button.submit:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.22),
+      0 12px 30px -6px rgba(124,58,237,0.7),
+      0 0 32px rgba(192,132,252,0.5);
+  }
+  button.submit:active { transform: translateY(1px); }
+  button.submit:disabled { opacity: .55; cursor: not-allowed; }
+
+  .err {
+    margin-top: 14px; padding: 10px 12px; border-radius: 10px;
+    background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.32);
+    color: #fda4a4; font-size: 12.5px;
+  }
+  .foot {
+    margin-top: 22px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 10px; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--text-3); font-family: 'JetBrains Mono', monospace;
+  }
+  .foot .gold { color: var(--gold); opacity: .8; }
+
+  @media (max-width: 480px) {
+    .card { padding: 28px 22px 22px; }
+    .lead { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand">
+      <div class="sigil" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M3.5 5.5C3.5 4.67 4.17 4 5 4h7.5l4 3v8.5c0 .83-.67 1.5-1.5 1.5H5c-.83 0-1.5-.67-1.5-1.5V5.5Z"
+                stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+          <path d="M12.5 4v3.5h4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+          <path d="M6.2 9h6.6M6.2 11.5h6.6M6.2 14h4.2"
+                stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".75"/>
+          <path d="M15.7 2.2l.5 1.4 1.4.5-1.4.5-.5 1.4-.5-1.4-1.4-.5 1.4-.5z" fill="#FBE5A4" opacity=".95"/>
+        </svg>
+      </div>
+      <div class="word">
+        <span class="eyebrow">Codex</span>
+        <span class="wordmark">{{PROJECT_TITLE}}</span>
+      </div>
+    </div>
+
+    <div class="lead">Welcome back.</div>
+    <div class="lead-sub">Sign in to continue.</div>
+
+    <form id="f" autocomplete="on">
+      <label for="u">Username</label>
+      <input id="u" name="username" autocomplete="username" autofocus required spellcheck="false">
+      <label for="p">Password</label>
+      <input id="p" name="password" type="password" autocomplete="current-password" required>
+      <button type="submit" id="b" class="submit">Enter</button>
+    </form>
+    <div id="e"></div>
+    <p class="foot">Stays signed in · <span class="gold">10 days</span></p>
+  </div>
+</div>
+<script>
+  function escapeHtml(s){return String(s).replace(/[<>&"]/g,function(c){return({"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"})[c];});}
+  const f = document.getElementById('f');
+  const b = document.getElementById('b');
+  const e = document.getElementById('e');
+  f.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    e.innerHTML = '';
+    b.disabled = true;
+    const label = b.textContent;
+    b.textContent = 'Checking…';
+    try {
+      const fd = new FormData(f);
+      const res = await fetch('api/auth/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({username: fd.get('username'), password: fd.get('password')}),
+        credentials: 'same-origin',
+      });
+      if (res.ok) { location.reload(); return; }
+      let msg = 'Invalid credentials.';
+      try { const j = await res.json(); if (j && j.error) msg = j.error; } catch(_) {}
+      e.innerHTML = '<div class="err">' + escapeHtml(msg) + '</div>';
+    } catch (err) {
+      e.innerHTML = '<div class="err">Network error. Try again.</div>';
+    } finally {
+      b.disabled = false; b.textContent = label;
+    }
+  });
+</script>
+</body>
+</html>
