@@ -1,0 +1,38 @@
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.python-version
+
+# ── Your data (never commit content or secrets) ─────────────────────────────
+# The whole runtime data dir is ignored. Re-create it on a fresh checkout
+# with the steps in README.md.
+data/
+
+# In case anyone runs the app with --root . (don't, but defensive):
+.auth.json
+.session_secret
+.docs_outdated.json
+deleted/
+
+# ── Editors / OS ────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs / local scratch ────────────────────────────────────────────────────
+*.log
+*.pid
+.cache/
+.tmp/

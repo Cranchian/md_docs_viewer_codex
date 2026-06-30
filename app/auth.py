@@ -1,7 +1,11 @@
-"""Single-user auth: scrypt password hash + HMAC-signed session cookie.
+"""Password hashing + HMAC-signed session cookie.
 
-Stdlib-only. Mirrors the postulates app's auth scheme but with a 10-day TTL
-and a distinct cookie name (`pdocs_session`).
+The store-of-truth for users lives in the SQLite DB now (see app/users.py).
+This module is just primitives — scrypt + HMAC + cookie shape + token sign/verify.
+
+Stdlib only. Mirrors the postulates app's auth scheme but with a 10-day TTL
+and a distinct cookie name (`pdocs_session`). Token payload carries the user
+id (`uid`) and username (`u`) — older tokens without `uid` are rejected.
 """
 from __future__ import annotations
 
@@ -19,7 +23,6 @@ from urllib.parse import unquote
 COOKIE_NAME = "pdocs_session"
 SESSION_TTL_SEC = 60 * 60 * 24 * 10  # 10 days
 
-AUTH_FILE = ".auth.json"
 SESSION_SECRET_FILE = ".session_secret"
 
 
@@ -34,7 +37,7 @@ def _b64url_decode(s: str) -> bytes:
     return base64.urlsafe_b64decode(s + pad)
 
 
-# ── secret + password storage ────────────────────────────────────────────────
+# ── secret + password primitives ─────────────────────────────────────────────
 
 def ensure_session_secret(root_path: str | Path) -> bytes:
     """Read or create a 32-byte session secret in <root>/.session_secret."""
@@ -71,36 +74,18 @@ def scrypt_verify(stored: str, password: str) -> bool:
         return False
 
 
-def load_credentials(root_path: str | Path) -> dict | None:
-    p = Path(root_path) / AUTH_FILE
-    if not p.exists():
-        return None
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return None
-
-
-def write_credentials(root_path: str | Path, username: str, password: str) -> None:
-    p = Path(root_path) / AUTH_FILE
-    p.write_text(json.dumps({"username": username, "passwordHash": scrypt_hash(password)}, indent=2))
-    try:
-        os.chmod(p, 0o600)
-    except Exception:
-        pass
-
-
 # ── tokens ───────────────────────────────────────────────────────────────────
 
-def sign_token(secret: bytes, username: str, ttl_sec: int = SESSION_TTL_SEC) -> str:
+def sign_token(secret: bytes, uid: int, username: str, ttl_sec: int = SESSION_TTL_SEC) -> str:
     now = int(time.time())
-    payload = {"u": username, "iat": now, "exp": now + ttl_sec}
+    payload = {"uid": uid, "u": username, "iat": now, "exp": now + ttl_sec}
     payload_b64 = _b64url(json.dumps(payload, separators=(",", ":")).encode("utf-8"))
     sig = hmac.new(secret, payload_b64.encode("ascii"), hashlib.sha256).digest()
     return f"{payload_b64}.{_b64url(sig)}"
 
 
 def verify_token(token: str | None, secret: bytes) -> dict | None:
+    """Return {uid, u, iat, exp} on success, else None. Rejects tokens without uid."""
     if not token or "." not in token:
         return None
     try:
@@ -111,6 +96,8 @@ def verify_token(token: str | None, secret: bytes) -> dict | None:
             return None
         payload = json.loads(_b64url_decode(payload_b64).decode("utf-8"))
         if payload.get("exp", 0) < int(time.time()):
+            return None
+        if "uid" not in payload or "u" not in payload:
             return None
         return payload
     except Exception:

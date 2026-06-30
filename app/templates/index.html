@@ -442,6 +442,172 @@
   .action-btn.btn-warn { border-color: rgba(251,146,36,0.3); color: var(--orange); background: rgba(251,146,36,0.06); }
   .action-btn.btn-warn:hover { background: rgba(251,146,36,0.12); }
   .action-btn .btn-icon { font-size: 13px; }
+  .action-btn.btn-share {
+    border-color: rgba(168,85,247,0.32);
+    color: var(--accent-hi);
+    background: rgba(168,85,247,0.06);
+  }
+  .action-btn.btn-share:hover { background: rgba(168,85,247,0.14); border-color: var(--accent); }
+
+  /* ── Shared-view pill (replaces actions for read-only) ── */
+  .shared-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 30px; padding: 0 12px; border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--text-2);
+    background: rgba(168,85,247,0.05);
+    border: 1px solid var(--border);
+  }
+  .shared-pill b { color: var(--accent-hi); font-weight: 600; }
+  body.shared-view .action-btn.btn-share,
+  body.shared-view .action-btn.btn-warn,
+  body.shared-view .action-btn.btn-danger,
+  body.shared-view #btn-upload,
+  body.shared-view #sidebar-actions { display: none !important; }
+  body.shared-view .shared-pill { display: inline-flex; }
+
+  /* ── Topbar "who" badge ── */
+  #logo .who {
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: .14em; text-transform: lowercase;
+    color: var(--text-3);
+  }
+  #logo .who::before { content: '@'; opacity: .7; }
+  @media (max-width: 768px) { #logo .who { display: none; } }
+
+  /* ── Shared-with-me sidebar block ── */
+  #shared-wrap {
+    margin: 6px 8px 4px;
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+  #shared-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; cursor: pointer; user-select: none;
+    color: var(--text-3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .22em; text-transform: uppercase;
+  }
+  #shared-header:hover { color: var(--text-2); }
+  #shared-header .toggle-chevron { font-size: 10px; transition: transform .15s; }
+  #shared-wrap.collapsed #shared-header .toggle-chevron { transform: rotate(-90deg); }
+  #shared-header .shdr-label { flex: 1; }
+  #shared-header .shdr-count {
+    background: rgba(168,85,247,0.10); color: var(--accent-hi);
+    border: 1px solid var(--border);
+    padding: 1px 7px; border-radius: 999px;
+    font-size: 10px; letter-spacing: .08em;
+  }
+  #shared-list { display: block; padding: 4px 4px 8px; }
+  #shared-wrap.collapsed #shared-list { display: none; }
+  .shared-item {
+    display: grid; grid-template-columns: 18px 1fr; gap: 8px; align-items: center;
+    padding: 6px 8px; border-radius: 6px;
+    cursor: pointer; color: var(--text-2);
+    font-size: 13px; line-height: 1.3;
+  }
+  .shared-item:hover { background: var(--bg-hover); color: var(--text-1); }
+  .shared-item.active { background: var(--accent-lo); color: var(--accent-hi); }
+  .shared-item .sh-ic { font-size: 13px; opacity: .7; text-align: center; }
+  .shared-item .sh-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .shared-item .sh-owner {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .08em;
+    color: var(--accent); opacity: .75;
+  }
+
+  /* ── Share modal ── */
+  .share-doc-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 500; letter-spacing: .04em;
+    color: var(--accent-hi);
+    background: rgba(168,85,247,0.08);
+    border: 1px solid var(--border);
+    border-radius: 6px; padding: 2px 8px;
+    margin-left: 8px; vertical-align: middle;
+  }
+  .share-tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: rgba(6,3,15,0.5);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px;
+    margin: 12px 0 16px;
+  }
+  .stab {
+    padding: 8px 10px; border: 0; background: transparent;
+    color: var(--text-3); cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: .22em; text-transform: uppercase;
+    border-radius: 999px;
+    transition: color .15s, background .15s, box-shadow .15s;
+  }
+  .stab.active {
+    color: var(--text-1);
+    background: linear-gradient(180deg, rgba(168,85,247,0.18), rgba(124,58,237,0.18));
+    box-shadow: inset 0 0 0 1px rgba(192,132,252,0.35);
+  }
+  .stab:hover:not(.active) { color: var(--text-2); }
+  .spane { display: none; }
+  .spane.active { display: block; }
+  .ta-wrap { position: relative; }
+  #share-user-results {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 4;
+    margin-top: 4px;
+    background: var(--bg-panel); border: 1px solid var(--border-strong);
+    border-radius: 8px; max-height: 220px; overflow-y: auto;
+    box-shadow: 0 18px 40px -10px rgba(0,0,0,0.5);
+    display: none;
+  }
+  #share-user-results.visible { display: block; }
+  #share-user-results .ur-item {
+    padding: 8px 12px; cursor: pointer; color: var(--text-1);
+    font-size: 13px; border-bottom: 1px solid var(--border);
+  }
+  #share-user-results .ur-item:last-child { border-bottom: 0; }
+  #share-user-results .ur-item:hover { background: rgba(168,85,247,0.10); color: var(--accent-hi); }
+  #share-user-results .ur-empty { padding: 8px 12px; color: var(--text-3); font-size: 12px; text-align: center; }
+  .share-list-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--text-3);
+    margin: 18px 0 8px;
+  }
+  .share-list { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
+  .share-empty { color: var(--text-3); font-size: 12.5px; padding: 8px 0; }
+  .share-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: rgba(6,3,15,0.45);
+    font-size: 13px; color: var(--text-1);
+  }
+  .share-row .sr-main { flex: 1; min-width: 0; }
+  .share-row .sr-sub {
+    display: block; color: var(--text-3);
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .04em;
+    margin-top: 2px;
+  }
+  .share-row .sr-x, .share-row .sr-copy {
+    height: 26px; padding: 0 10px; border-radius: 6px;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    cursor: pointer;
+  }
+  .share-row .sr-x:hover { color: var(--red); border-color: rgba(239,68,68,0.4); }
+  .share-row .sr-copy:hover { color: var(--accent-hi); border-color: var(--border-strong); }
+  .share-row.revoked { opacity: .55; }
+  .share-row.revoked .sr-x { display: none; }
+  #share-link-create { width: 100%; margin-top: 10px; }
 
   /* ── Confirm dialog ── */
   .confirm-overlay {
@@ -574,7 +740,57 @@
   .tree-file[draggable="true"] { cursor: grab; }
   .tree-file[draggable="true"]:active { cursor: grabbing; }
   .tree-file.dragging { opacity: .45; }
+  .tree-file.selected {
+    background: rgba(168,85,247,0.16);
+    box-shadow: inset 2px 0 0 var(--accent);
+  }
+  .tree-file.selected .file-name { color: var(--text-1); }
+  /* count badge shown on the dragged item while multi-dragging */
+  .drag-badge {
+    position: fixed; z-index: 9999; pointer-events: none;
+    background: var(--accent-deep); color: #fff; font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  }
   .drop-target.drop-over { background: rgba(168,85,247,0.12) !important; outline: 1px dashed var(--accent); }
+
+  /* ── Selection action bar ── */
+  #selection-bar {
+    display: none; align-items: center; gap: 8px;
+    margin: 0 8px 6px; padding: 7px 9px;
+    background: rgba(168,85,247,0.10); border: 1px solid var(--border-strong);
+    border-radius: 8px; font-size: 12px;
+  }
+  #selection-bar.visible { display: flex; }
+  #sel-count { color: var(--accent-hi); font-weight: 600; white-space: nowrap; }
+  #selection-bar .sel-actions { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+  #sel-move {
+    background: #fff; color: #000;
+    border: 1px solid var(--border); border-radius: 6px;
+    font: inherit; font-size: 11px; padding: 4px 6px; max-width: 110px; cursor: pointer;
+  }
+  #sel-move option { background: #fff; color: #000; }
+  .sel-btn {
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text-2); font: inherit; font-size: 11px; padding: 4px 9px; cursor: pointer;
+    transition: color .12s, background .12s, border-color .12s;
+  }
+  .sel-btn:hover { color: var(--text-1); border-color: var(--text-3); }
+  .sel-btn.danger:hover { color: var(--red); border-color: rgba(239,68,68,.4); background: rgba(239,68,68,.08); }
+
+  /* ── Category-delete choice modal ── */
+  .catdel-opts { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 4px; }
+  .catdel-opt {
+    display: flex; align-items: flex-start; gap: 9px; cursor: pointer;
+    padding: 10px 11px; border: 1px solid var(--border); border-radius: 8px;
+    font-size: 13px; color: var(--text-2); transition: border-color .12s, background .12s;
+  }
+  .catdel-opt:hover { border-color: var(--border-strong); background: var(--bg-hover); }
+  .catdel-opt input[type="radio"] { margin-top: 3px; accent-color: var(--accent); }
+  .catdel-opt select {
+    margin-left: 6px; background: #fff; color: #000;
+    border: 1px solid var(--border); border-radius: 6px; font: inherit; font-size: 12px; padding: 3px 6px;
+  }
+  .catdel-opt select option { background: #fff; color: #000; }
   #tree-wrap.root-drop.drop-over { outline: 1px dashed var(--accent); border-radius: 6px; background: rgba(168,85,247,0.06); }
 
   /* Empty-category headers get a × button on hover */
@@ -676,6 +892,11 @@
     background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.25);
     border-radius: 6px; padding: 7px 10px;
   }
+  .modal-ok {
+    margin-top: 10px; font-size: 12px; color: #a7f3d0;
+    background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.30);
+    border-radius: 6px; padding: 7px 10px;
+  }
 
   /* ── Mobile drawer + responsive ── */
   #drawer-backdrop {
@@ -748,21 +969,28 @@
         </svg>
       </div>
       <div class="word">
-        <span class="eyebrow">Codex</span>
+        <span class="eyebrow">Ccodex</span>
         <span class="title" id="project-title">{{PROJECT_TITLE}}</span>
+        <span class="who" id="who"></span>
       </div>
     </div>
     <div id="search-wrap">
       <svg id="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <input id="search" type="text" placeholder="Search docs…" autocomplete="off" spellcheck="false">
+      <input id="search" type="search" name="docs-find" placeholder="Search docs…" autocomplete="off" data-1p-ignore data-lpignore="true" spellcheck="false">
       <span id="search-kbd">⌘K</span>
     </div>
     <div id="file-count">— files</div>
     <div class="top-actions">
       <button class="top-btn primary" id="btn-upload" type="button">
         <span class="ic">↑</span><span class="label">Upload</span>
+      </button>
+      <button class="top-btn icon-only" id="btn-account" type="button" title="Account" aria-label="Account">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="6" r="2.5"/>
+          <path d="M3 13c.5-2.4 2.6-3.5 5-3.5s4.5 1.1 5 3.5"/>
+        </svg>
       </button>
       <button class="top-btn icon-only" id="btn-logout" type="button" title="Sign out" aria-label="Sign out">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
@@ -790,8 +1018,29 @@
         <span class="ic">＋</span> New category
       </button>
     </div>
+    <div id="selection-bar">
+      <span id="sel-count">0 selected</span>
+      <div class="sel-actions">
+        <select id="sel-move" title="Move selected to…">
+          <option value="" disabled selected>Move to…</option>
+        </select>
+        <button type="button" id="sel-delete" class="sel-btn danger" title="Delete selected">Delete</button>
+        <button type="button" id="sel-clear" class="sel-btn" title="Clear selection">✕</button>
+      </div>
+    </div>
     <div id="tree-wrap"></div>
     <div id="search-results"></div>
+
+    <!-- Shared with me -->
+    <div id="shared-wrap" style="display:none">
+      <div id="shared-header">
+        <span class="toggle-chevron">▾</span>
+        <span class="shdr-label">Shared with me</span>
+        <span class="shdr-count" id="shared-count">0</span>
+      </div>
+      <div id="shared-list"></div>
+    </div>
+
     <div id="content-search-wrap">
       <div id="content-search-toggle">
         <span class="toggle-chevron">▶</span>
@@ -802,7 +1051,7 @@
         Deep Search
       </div>
       <div id="content-search-panel">
-        <input id="content-search-input" type="text" placeholder="Search inside all docs…" autocomplete="off" spellcheck="false">
+        <input id="content-search-input" type="search" name="docs-grep" placeholder="Search inside all docs…" autocomplete="off" data-1p-ignore data-lpignore="true" spellcheck="false">
         <div id="content-search-results"></div>
       </div>
     </div>
@@ -819,9 +1068,13 @@
         <button class="action-btn btn-warn" id="btn-outdated" onclick="toggleOutdated()">
           <span class="btn-icon">⚠</span> <span id="btn-outdated-text">Mark Outdated</span>
         </button>
+        <button class="action-btn btn-share" id="btn-share" onclick="openShareModal()">
+          <span class="btn-icon">⤴</span> Share
+        </button>
         <button class="action-btn btn-danger" id="btn-delete" onclick="confirmDelete()">
           <span class="btn-icon">🗑</span> Delete
         </button>
+        <span class="shared-pill" id="shared-pill" style="display:none">Shared by <b id="shared-owner"></b> · read only</span>
       </div>
     </div>
     <div id="content-wrap">
@@ -872,6 +1125,63 @@
   </div>
 </div>
 
+<!-- Account modal -->
+<div id="account-modal" style="display:none">
+  <div class="modal-overlay" onclick="if(event.target===this)closeAccountModal()">
+    <div class="modal" role="dialog" aria-labelledby="account-title">
+      <h3 id="account-title">Account</h3>
+      <p class="modal-sub">Signed in as <b id="account-who" style="color:var(--accent-hi)"></b>. Update your password below.</p>
+      <label for="acct-current">Current password</label>
+      <input id="acct-current" type="password" autocomplete="current-password">
+      <label for="acct-new">New password <span style="font-weight:400;color:var(--text-3);text-transform:none;letter-spacing:0">— at least 8 characters</span></label>
+      <input id="acct-new" type="password" autocomplete="new-password" minlength="8">
+      <label for="acct-confirm">Confirm new password</label>
+      <input id="acct-confirm" type="password" autocomplete="new-password" minlength="8">
+      <div class="modal-err" id="acct-err" style="display:none"></div>
+      <div class="modal-ok" id="acct-ok" style="display:none">Password updated.</div>
+      <div class="modal-btns">
+        <button class="modal-btn" type="button" onclick="closeAccountModal()">Close</button>
+        <button class="modal-btn primary" id="acct-submit" type="button">Update password</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Share modal -->
+<div id="share-modal" style="display:none">
+  <div class="modal-overlay" onclick="if(event.target===this)closeShareModal()">
+    <div class="modal" role="dialog" aria-labelledby="share-title">
+      <h3 id="share-title">Share <span id="share-doc-name" class="share-doc-name"></span></h3>
+      <p class="modal-sub">Read-only. Recipients can view but not edit. Drop the link or share with a specific user.</p>
+      <div class="share-tabs" role="tablist">
+        <button class="stab active" data-stab="user" role="tab" type="button">With user</button>
+        <button class="stab" data-stab="link" role="tab" type="button">Link</button>
+      </div>
+
+      <div class="spane active" data-spane="user">
+        <label for="share-user-input">Recipient</label>
+        <div class="ta-wrap">
+          <input id="share-user-input" type="text" placeholder="Start typing a username…" autocomplete="off" spellcheck="false">
+          <div id="share-user-results"></div>
+        </div>
+        <div class="share-list-head">Shared with</div>
+        <div id="share-user-list" class="share-list"><div class="share-empty">No one yet</div></div>
+      </div>
+
+      <div class="spane" data-spane="link">
+        <div class="share-list-head" style="margin-top:0">Active links</div>
+        <div id="share-link-list" class="share-list"><div class="share-empty">No links yet</div></div>
+        <button class="modal-btn primary" id="share-link-create" type="button">+ Create link</button>
+      </div>
+
+      <div class="modal-err" id="share-err" style="display:none"></div>
+      <div class="modal-btns">
+        <button class="modal-btn" type="button" onclick="closeShareModal()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- New category modal -->
 <div id="category-modal" style="display:none">
   <div class="modal-overlay" onclick="if(event.target===this)closeCategoryModal()">
@@ -913,29 +1223,37 @@ let allFiles = [];
 let treeData = {};
 let outdatedFiles = new Set();
 let categories = [];
+let sharedWithMe = [];       // [{owner, owner_id, doc_path, name}]
 let currentPath = null;
+let currentOwner = null;     // null = self; else username string for shared doc
+let currentUser = null;      // {id, username, is_admin}
 let searchFocusIdx = -1;
+
+// ── Multi-select state ──
+const selectedPaths = new Set();  // doc paths currently selected
+let fileOrder = [];               // doc paths in render order (for shift-range)
+let lastAnchorPath = null;        // anchor for shift-range selection
 
 // ── Init ───────────────────────────────────────────────────────────────────
 async function init() {
-  const res = await fetch('api/files');
-  const data = await res.json();
-  allFiles = data.flat;
-  treeData = data.tree;
-  outdatedFiles = new Set(data.outdated || []);
-  categories = data.categories || [];
+  try {
+    const meRes = await fetch('api/auth/me');
+    const me = await meRes.json();
+    currentUser = me.user || null;
+    if (currentUser) document.getElementById('who').textContent = currentUser.username;
+  } catch (_) {}
 
-  document.getElementById('file-count').textContent = `${allFiles.length} files`;
-  renderTree(treeData, document.getElementById('tree-wrap'));
+  await refreshFiles();
   attachRootDropTarget();
 
-  // Auto-open first README or first file (skip auto-open on empty state)
+  // Auto-open first README or first file
   if (allFiles.length) {
     const readmes = allFiles.filter(f => f.toLowerCase().endsWith('readme.md'));
     const first = readmes.length ? readmes[0] : allFiles[0];
     if (first) openFile(first);
-  } else {
-    // empty state: leave welcome card visible
+  } else if (sharedWithMe.length) {
+    const f = sharedWithMe[0];
+    openSharedFile(f.owner, f.doc_path);
   }
 }
 
@@ -973,20 +1291,19 @@ function renderTree(node, container, depth = 0, categoryName = '') {
         ${depth === 0 ? '◈' : '◇'}
       </span>
       <span style="${color ? `color:${color}` : ''}">${name}</span>
-      ${isEmpty ? `<span class="cat-actions"><button type="button" class="cat-x" data-cat="${name}" title="Delete empty category" aria-label="Delete empty category">×</button></span>` : ''}
+      ${depth === 0 ? `<span class="cat-actions"><button type="button" class="cat-x" data-cat="${name}" title="Delete category" aria-label="Delete category">×</button></span>` : ''}
     `;
     label.addEventListener('click', (e) => {
       if (e.target.classList.contains('cat-x')) return;
       dirEl.classList.toggle('open');
     });
     if (depth === 0) attachDropHandlers(label, name);
-    // Delete-empty-category handler
+    // Delete-category handler (empty → confirm; non-empty → choice modal)
     const xBtn = label.querySelector('.cat-x');
     if (xBtn) {
-      xBtn.addEventListener('click', async (e) => {
+      xBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (!confirm(`Delete empty category "${name}"?`)) return;
-        await deleteCategory(name);
+        requestDeleteCategory(name, isEmpty);
       });
     }
 
@@ -1003,8 +1320,10 @@ function renderTree(node, container, depth = 0, categoryName = '') {
     const el = document.createElement('div');
     el.className = 'tree-file';
     if (outdatedFiles.has(val._path)) el.classList.add('outdated');
+    if (selectedPaths.has(val._path)) el.classList.add('selected');
     el.dataset.path = val._path;
     el.draggable = true;
+    fileOrder.push(val._path);
 
     const isReadme = name.toLowerCase() === 'readme.md';
     const isChangelog = name.toLowerCase().includes('changelog');
@@ -1018,15 +1337,33 @@ function renderTree(node, container, depth = 0, categoryName = '') {
     el.addEventListener('click', (e) => {
       // Avoid opening if user just finished dragging
       if (el.dataset.justDragged === '1') { delete el.dataset.justDragged; return; }
+      // Modifier clicks build a multi-selection instead of opening.
+      if (e.metaKey || e.ctrlKey) {
+        e.preventDefault();
+        toggleSelect(val._path);
+        lastAnchorPath = val._path;
+        return;
+      }
+      if (e.shiftKey && lastAnchorPath) {
+        e.preventDefault();
+        selectRange(lastAnchorPath, val._path);
+        return;
+      }
+      clearSelection();
+      lastAnchorPath = val._path;
       openFile(val._path);
     });
     el.addEventListener('dragstart', (e) => {
+      const paths = dragPathsFor(val._path);
       el.classList.add('dragging');
-      e.dataTransfer.setData('text/plain', val._path);
+      e.dataTransfer.setData('application/x-doc-paths', JSON.stringify(paths));
+      e.dataTransfer.setData('text/plain', paths[0]);
       e.dataTransfer.effectAllowed = 'move';
+      if (paths.length > 1) showDragBadge(e, paths.length);
     });
     el.addEventListener('dragend', () => {
       el.classList.remove('dragging');
+      hideDragBadge();
       el.dataset.justDragged = '1';
       setTimeout(() => { delete el.dataset.justDragged; }, 50);
     });
@@ -1044,12 +1381,9 @@ function attachDropHandlers(el, category) {
   el.addEventListener('drop', async (e) => {
     e.preventDefault();
     el.classList.remove('drop-over');
-    const path = e.dataTransfer.getData('text/plain');
-    if (!path) return;
-    // Skip no-op (file already in this category, top-level segment matches)
-    const current = path.includes('/') ? path.split('/')[0] : '';
-    if (current === category) return;
-    await moveFile(path, category);
+    const paths = getDraggedPaths(e).filter(p => topSeg(p) !== category);
+    if (!paths.length) return;
+    await moveFiles(paths, category);
   });
 }
 
@@ -1071,27 +1405,154 @@ function attachRootDropTarget() {
     if (e.target !== tw) return;
     e.preventDefault();
     tw.classList.remove('drop-over');
-    const path = e.dataTransfer.getData('text/plain');
-    if (!path) return;
-    if (!path.includes('/')) return;  // already at root
-    await moveFile(path, '');
+    const paths = getDraggedPaths(e).filter(p => topSeg(p) !== '');  // skip files already at root
+    if (!paths.length) return;
+    await moveFiles(paths, '');
   });
 }
 
-async function deleteCategory(name) {
-  try {
-    const res = await fetch('api/categories/delete', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name}),
-    });
-    const j = await res.json();
-    if (!res.ok || !j.ok) throw new Error(j.error || 'Could not delete');
-    showToast(`Removed "${name}"`, '🗑️');
-    await refreshFiles();
-  } catch (err) {
-    showToast(err.message || 'Could not delete', '⚠️');
+// ── Selection helpers ───────────────────────────────────────────────────────
+function topSeg(path) { return path.includes('/') ? path.split('/')[0] : ''; }
+
+function dragPathsFor(path) {
+  // Dragging a file that's part of a multi-selection drags the whole set.
+  if (selectedPaths.has(path) && selectedPaths.size > 1) return Array.from(selectedPaths);
+  return [path];
+}
+
+function getDraggedPaths(e) {
+  const raw = e.dataTransfer.getData('application/x-doc-paths');
+  if (raw) {
+    try { const a = JSON.parse(raw); if (Array.isArray(a)) return a.filter(Boolean); } catch (_) {}
   }
+  const p = e.dataTransfer.getData('text/plain');
+  return p ? [p] : [];
+}
+
+function applySelectionClasses() {
+  document.querySelectorAll('.tree-file').forEach(el => {
+    el.classList.toggle('selected', selectedPaths.has(el.dataset.path));
+  });
+}
+
+function updateSelectionBar() {
+  const bar = document.getElementById('selection-bar');
+  const n = selectedPaths.size;
+  bar.classList.toggle('visible', n > 0);
+  if (!n) return;
+  document.getElementById('sel-count').textContent = `${n} selected`;
+  // Rebuild move-target dropdown from current categories.
+  const sel = document.getElementById('sel-move');
+  sel.innerHTML = '<option value="" disabled selected>Move to…</option>'
+    + '<option value=" root">▸ Root</option>'
+    + categories.map(c => `<option value="${c}">${c}/</option>`).join('');
+}
+
+function toggleSelect(path) {
+  if (selectedPaths.has(path)) selectedPaths.delete(path);
+  else selectedPaths.add(path);
+  applySelectionClasses();
+  updateSelectionBar();
+}
+
+function selectRange(fromPath, toPath) {
+  const i = fileOrder.indexOf(fromPath), j = fileOrder.indexOf(toPath);
+  if (i === -1 || j === -1) { toggleSelect(toPath); return; }
+  const [lo, hi] = i <= j ? [i, j] : [j, i];
+  for (let k = lo; k <= hi; k++) selectedPaths.add(fileOrder[k]);
+  applySelectionClasses();
+  updateSelectionBar();
+}
+
+function clearSelection() {
+  if (!selectedPaths.size) return;
+  selectedPaths.clear();
+  applySelectionClasses();
+  updateSelectionBar();
+}
+
+// Drag count badge that follows nothing (set once at drag image position).
+let _dragBadge = null;
+function showDragBadge(e, n) {
+  hideDragBadge();
+  _dragBadge = document.createElement('div');
+  _dragBadge.className = 'drag-badge';
+  _dragBadge.textContent = `${n} files`;
+  _dragBadge.style.top = '-100px';
+  document.body.appendChild(_dragBadge);
+  try { e.dataTransfer.setDragImage(_dragBadge, 10, 10); } catch (_) {}
+}
+function hideDragBadge() { if (_dragBadge) { _dragBadge.remove(); _dragBadge = null; } }
+
+// ── Category deletion (empty → confirm; non-empty → purge/reassign choice) ──
+async function postCategoryDelete(name, mode, target) {
+  const res = await fetch('api/categories/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, mode, target}),
+  });
+  const j = await res.json();
+  if (!res.ok || !j.ok) throw new Error(j.error || 'Could not delete');
+}
+
+function requestDeleteCategory(name, isEmpty) {
+  if (isEmpty) {
+    if (!confirm(`Delete empty category "${name}"?`)) return;
+    postCategoryDelete(name, 'empty', '')
+      .then(() => { showToast(`Removed "${name}"`, '🗑️'); return refreshFiles(); })
+      .catch(err => showToast(err.message || 'Could not delete', '⚠️'));
+    return;
+  }
+  openCategoryDeleteModal(name);
+}
+
+function openCategoryDeleteModal(name) {
+  const others = categories.filter(c => c !== name);
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-overlay';
+  overlay.innerHTML = `
+    <div class="confirm-dialog">
+      <h3>Delete category “${name}”?</h3>
+      <p>This category contains documents. Choose what happens to them:</p>
+      <div class="catdel-opts">
+        <label class="catdel-opt">
+          <input type="radio" name="catdel-mode" value="reassign" checked>
+          <span>Move documents to
+            <select id="catdel-target">
+              <option value="">Root (no category)</option>
+              ${others.map(c => `<option value="${c}">${c}/</option>`).join('')}
+            </select>
+          </span>
+        </label>
+        <label class="catdel-opt">
+          <input type="radio" name="catdel-mode" value="purge">
+          <span>Delete everything inside (moves files to <code style="font-size:12px">deleted/</code>)</span>
+        </label>
+      </div>
+      <div class="dialog-btns">
+        <button class="dialog-btn cancel" id="catdel-cancel">Cancel</button>
+        <button class="dialog-btn danger" id="catdel-go">Delete category</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#catdel-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#catdel-go').addEventListener('click', async () => {
+    const mode = overlay.querySelector('input[name="catdel-mode"]:checked').value;
+    const target = mode === 'reassign' ? overlay.querySelector('#catdel-target').value : '';
+    overlay.remove();
+    try {
+      await postCategoryDelete(name, mode, target);
+      // If the open doc lived in this category, reset the view.
+      if (currentPath && topSeg(currentPath) === name) resetContentView();
+      showToast(mode === 'purge' ? `Deleted "${name}" and contents` : `Emptied "${name}"`, '🗑️');
+      clearSelection();
+      await refreshFiles();
+    } catch (err) {
+      showToast(err.message || 'Could not delete', '⚠️');
+    }
+  });
 }
 
 async function uploadFiles(fileList, category = '') {
@@ -1122,18 +1583,24 @@ async function uploadFiles(fileList, category = '') {
   }
 }
 
-async function moveFile(path, category) {
+async function moveFiles(paths, category) {
+  if (!paths || !paths.length) return;
   try {
     const res = await fetch('api/move', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({path, category}),
+      body: JSON.stringify({paths, category}),
     });
     const j = await res.json();
     if (!res.ok || !j.ok) throw new Error(j.error || 'Move failed');
-    showToast(category ? `Moved to ${category}/` : 'Moved to root', '📂');
-    // If we moved the currently-open file, retarget
-    if (currentPath === path) currentPath = j.path;
+    const n = j.moved || paths.length;
+    showToast(`Moved ${n} file${n > 1 ? 's' : ''}${category ? ` to ${category}/` : ' to root'}`, '📂');
+    // If the open file moved, recompute its new path (category prefix swap).
+    if (currentPath && paths.includes(currentPath)) {
+      const fname = currentPath.split('/').pop();
+      currentPath = category ? `${category}/${fname}` : fname;
+    }
+    clearSelection();
     await refreshFiles();
     if (currentPath) {
       document.querySelectorAll('.tree-file').forEach(el => {
@@ -1145,14 +1612,69 @@ async function moveFile(path, category) {
   }
 }
 
+// Back-compat single-file wrapper.
+function moveFile(path, category) { return moveFiles([path], category); }
+
+// Delete the current multi-selection (soft delete → deleted/).
+function deleteSelected() {
+  const paths = Array.from(selectedPaths);
+  if (!paths.length) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'confirm-overlay';
+  overlay.innerHTML = `
+    <div class="confirm-dialog">
+      <h3>Delete ${paths.length} document${paths.length > 1 ? 's' : ''}?</h3>
+      <p>They will be moved to the <code style="font-size:12px">deleted/</code> folder and can be restored manually.</p>
+      <div class="dialog-btns">
+        <button class="dialog-btn cancel" onclick="this.closest('.confirm-overlay').remove()">Cancel</button>
+        <button class="dialog-btn danger" id="bulk-delete-go">Delete</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('#bulk-delete-go').addEventListener('click', async () => {
+    overlay.remove();
+    try {
+      const res = await fetch('api/delete', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({paths}),
+      });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error || 'Delete failed');
+      if (currentPath && paths.includes(currentPath)) resetContentView();
+      showToast(`Deleted ${j.deleted} file${j.deleted > 1 ? 's' : ''}`, '🗑️');
+      clearSelection();
+      await refreshFiles();
+    } catch (err) {
+      showToast(err.message || 'Delete failed', '⚠️');
+    }
+  });
+}
+
+// Reset the content pane to the empty/welcome state (shared by single + bulk delete).
+function resetContentView() {
+  currentPath = null;
+  document.getElementById('breadcrumb-actions').style.display = 'none';
+  document.getElementById('breadcrumb-path').innerHTML = '<span style="color:var(--text-3)">Select a file to begin</span>';
+  document.getElementById('doc-content').className = '';
+  document.getElementById('doc-content').innerHTML = '';
+  document.getElementById('welcome').style.display = '';
+  document.getElementById('toc-list').innerHTML = '<span id="toc-empty">—</span>';
+}
+
 // ── Open File ──────────────────────────────────────────────────────────────
 async function openFile(path) {
   currentPath = path;
+  currentOwner = null;
+  document.body.classList.remove('shared-view');
+  document.getElementById('shared-pill').style.display = 'none';
 
   // Update active state
   document.querySelectorAll('.tree-file').forEach(el => {
     el.classList.toggle('active', el.dataset.path === path);
   });
+  document.querySelectorAll('.shared-item').forEach(el => el.classList.remove('active'));
 
   // Expand parent dirs
   expandParents(path);
@@ -1180,6 +1702,50 @@ async function openFile(path) {
 
   document.getElementById('loader').className = '';
   renderDoc(md);
+}
+
+async function openSharedFile(owner, path) {
+  currentPath = path;
+  currentOwner = owner;
+  document.body.classList.add('shared-view');
+
+  document.querySelectorAll('.tree-file').forEach(el => el.classList.remove('active'));
+  renderSharedWithMe();   // re-render to highlight active
+
+  // Breadcrumb shows owner + path
+  const parts = path.split('/');
+  const bcPath = document.getElementById('breadcrumb-path');
+  bcPath.innerHTML =
+    `<span class="crumb-sep">@</span><span style="color:var(--accent-hi)">${escapeHtml(owner)}</span><span class="crumb-sep">/</span>` +
+    parts.map((p, i) =>
+      i < parts.length - 1
+        ? `<span>${escapeHtml(p)}</span><span class="crumb-sep">/</span>`
+        : `<span class="crumb-file">${escapeHtml(p)}</span>`
+    ).join('');
+
+  document.getElementById('breadcrumb-actions').style.display = 'flex';
+  document.getElementById('shared-pill').style.display = '';
+  document.getElementById('shared-owner').textContent = owner;
+
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('doc-content').className = '';
+  document.getElementById('loader').className = 'visible';
+
+  try {
+    const res = await fetch(`api/content?owner=${encodeURIComponent(owner)}&path=${encodeURIComponent(path)}`);
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.error || 'Could not load shared doc');
+    }
+    const md = await res.text();
+    document.getElementById('loader').className = '';
+    renderDoc(md);
+  } catch (err) {
+    document.getElementById('loader').className = '';
+    document.getElementById('doc-content').innerHTML =
+      `<div class="outdated-banner"><div class="ob-text">Could not load this shared doc</div><div class="ob-sub">${escapeHtml(err.message || '')}</div></div>`;
+    document.getElementById('doc-content').className = 'visible';
+  }
 }
 
 function expandParents(path) {
@@ -1418,14 +1984,7 @@ function confirmDelete() {
     });
     if (res.ok) {
       showToast('Moved to deleted/', '🗑️');
-      // Refresh file list and reset view
-      currentPath = null;
-      document.getElementById('breadcrumb-actions').style.display = 'none';
-      document.getElementById('breadcrumb-path').innerHTML = '<span style="color:var(--text-3)">Select a file to begin</span>';
-      document.getElementById('doc-content').className = '';
-      document.getElementById('doc-content').innerHTML = '';
-      document.getElementById('welcome').style.display = '';
-      document.getElementById('toc-list').innerHTML = '<span id="toc-empty">—</span>';
+      resetContentView();
       await refreshFiles();
     }
   });
@@ -1620,16 +2179,19 @@ function downloadPDF() {
 
   <div class="pdf-footer">${prettyTitle} — ${dateStr}</div>
 
-<script>window.onload = function() { window.print(); };<\/script>
+<script>
+  window.onload = function() { setTimeout(function(){ window.print(); }, 60); };
+  window.onafterprint = function() { window.close(); };
+<\/script>
 </body></html>`;
 
   const blob = new Blob([htmlStr], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
-  const win = window.open(url, '_blank');
-  win.addEventListener('afterprint', () => {
-    win.close();
-    URL.revokeObjectURL(url);
-  });
+  // 'noopener' puts the print window in its own process so its blocking
+  // window.print() can't freeze this tab's event loop. The window self-closes
+  // via the inline onafterprint above, so we don't hold a reference here.
+  window.open(url, '_blank', 'noopener');
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 // ── Toast ──────────────────────────────────────────────────────────────────
@@ -1651,13 +2213,54 @@ async function refreshFiles() {
   treeData = data.tree;
   outdatedFiles = new Set(data.outdated || []);
   categories = data.categories || [];
+  sharedWithMe = data.shared_with_me || [];
   document.getElementById('file-count').textContent = `${allFiles.length} files`;
+  // Drop selected paths that no longer exist (deleted/moved-away).
+  const live = new Set(allFiles);
+  for (const p of Array.from(selectedPaths)) if (!live.has(p)) selectedPaths.delete(p);
   const tw = document.getElementById('tree-wrap');
   tw.innerHTML = '';
+  fileOrder = [];
   colorIdx = 0;
   for (const k in folderColors) delete folderColors[k];
   renderTree(treeData, tw);
+  renderSharedWithMe();
+  updateSelectionBar();
 }
+
+function renderSharedWithMe() {
+  const wrap = document.getElementById('shared-wrap');
+  const list = document.getElementById('shared-list');
+  const count = document.getElementById('shared-count');
+  if (!sharedWithMe.length) {
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = '';
+  count.textContent = sharedWithMe.length;
+  list.innerHTML = '';
+  for (const item of sharedWithMe) {
+    const el = document.createElement('div');
+    el.className = 'shared-item';
+    const isActive = currentOwner === item.owner && currentPath === item.doc_path;
+    if (isActive) el.classList.add('active');
+    el.innerHTML = `
+      <span class="sh-ic">⌗</span>
+      <span>
+        <span class="sh-name">${escapeHtml(item.name)}</span>
+        <span class="sh-owner">@${escapeHtml(item.owner)}${item.doc_path.includes('/') ? ' · ' + escapeHtml(item.doc_path.split('/').slice(0, -1).join('/')) : ''}</span>
+      </span>
+    `;
+    el.addEventListener('click', () => openSharedFile(item.owner, item.doc_path));
+    list.appendChild(el);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest && e.target.closest('#shared-header')) {
+    document.getElementById('shared-wrap').classList.toggle('collapsed');
+  }
+});
 
 // ── Content search (Deep Search) ───────────────────────────────────────────
 const csToggle = document.getElementById('content-search-toggle');
@@ -1717,6 +2320,79 @@ function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// ── Folder-drop traversal (folder name → category) ────────────────────────
+function fileFromEntry(entry) {
+  return new Promise((resolve, reject) => entry.file(resolve, reject));
+}
+function readAllEntries(dirReader) {
+  // readEntries returns results in batches; keep calling until it's empty.
+  return new Promise((resolve, reject) => {
+    const all = [];
+    const pump = () => dirReader.readEntries(batch => {
+      if (!batch.length) { resolve(all); return; }
+      all.push(...batch);
+      pump();
+    }, reject);
+    pump();
+  });
+}
+async function walkDir(dirEntry, category, out) {
+  const reader = dirEntry.createReader();
+  const children = await readAllEntries(reader);
+  for (const child of children) {
+    if (child.isFile) {
+      out.push({ entry: child, category });           // flatten nested dirs into the category
+    } else if (child.isDirectory) {
+      await walkDir(child, category, out);
+    }
+  }
+}
+async function collectDroppedEntries(entries, looseCategory) {
+  const out = [];  // {entry, category}
+  for (const en of entries) {
+    if (en.isFile) {
+      out.push({ entry: en, category: looseCategory });
+    } else if (en.isDirectory) {
+      await walkDir(en, en.name, out);                 // top folder name = category
+    }
+  }
+  return out;
+}
+async function uploadCollected(collected) {
+  // Resolve File objects, keep only .md, then upload each under its category.
+  const items = [];
+  for (const c of collected) {
+    if (!c.entry.name.toLowerCase().endsWith('.md')) continue;
+    try { items.push({ file: await fileFromEntry(c.entry), category: c.category }); } catch (_) {}
+  }
+  const skipped = collected.length - items.length;
+  if (skipped) showToast(`Skipped ${skipped} non-.md file${skipped > 1 ? 's' : ''}`, '⚠️');
+  if (!items.length) return;
+  const cats = new Set();
+  let ok = 0, last = null;
+  for (const { file, category } of items) {
+    try {
+      const content = await file.text();
+      const res = await fetch('api/upload', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name: file.name, category, content }),
+      });
+      const j = await res.json();
+      if (!res.ok || !j.ok) throw new Error(j.error || 'Upload failed');
+      ok++; last = j.path; if (category) cats.add(category);
+    } catch (err) {
+      showToast(`${file.name}: ${err.message || 'upload failed'}`, '⚠️');
+    }
+  }
+  if (ok) {
+    const catNote = cats.size ? ` into ${cats.size} categor${cats.size > 1 ? 'ies' : 'y'}` : '';
+    showToast(`Uploaded ${ok} file${ok > 1 ? 's' : ''}${catNote}`, '✨');
+    await refreshFiles();
+    if (last) openFile(last);
+  }
+}
+
 // ── Native-file drop on sidebar (multi-file .md upload) ───────────────────
 (function setupSidebarFileDrop() {
   const sidebar = document.getElementById('sidebar');
@@ -1752,18 +2428,61 @@ function escapeHtml(s) {
     e.preventDefault();
     dragDepth = 0;
     sidebar.classList.remove('file-drop-active');
-    // Determine target category — if the drop happened over a category header, use it
-    let category = '';
+    // Determine fallback category — if the drop landed on a category header, use it.
+    let dropCategory = '';
     const labelEl = e.target.closest && e.target.closest('.tree-dir-label');
-    if (labelEl && labelEl.dataset.category) category = labelEl.dataset.category;
-    if (e.dataTransfer.files && e.dataTransfer.files.length) {
-      await uploadFiles(e.dataTransfer.files, category);
+    if (labelEl && labelEl.dataset.category) dropCategory = labelEl.dataset.category;
+
+    // Capture entries synchronously — the items list is invalidated after await.
+    const dt = e.dataTransfer;
+    const entries = [];
+    let hasDir = false;
+    if (dt.items && dt.items.length && dt.items[0].webkitGetAsEntry) {
+      for (const it of dt.items) {
+        if (it.kind !== 'file') continue;
+        const en = it.webkitGetAsEntry();
+        if (!en) continue;
+        if (en.isDirectory) hasDir = true;
+        entries.push(en);
+      }
+    }
+    if (hasDir) {
+      // A dropped folder → its name becomes the category; .md inside go under it.
+      const collected = await collectDroppedEntries(entries, dropCategory);
+      await uploadCollected(collected);
+    } else if (dt.files && dt.files.length) {
+      await uploadFiles(dt.files, dropCategory);
     }
   });
   // Window dragleave to reset (covers cases where dragleave on sidebar misfires)
   window.addEventListener('dragend', () => {
     dragDepth = 0;
     sidebar.classList.remove('file-drop-active');
+  });
+})();
+
+// ── Selection action bar wiring ────────────────────────────────────────────
+(function setupSelectionBar() {
+  const selMove = document.getElementById('sel-move');
+  const selDelete = document.getElementById('sel-delete');
+  const selClear = document.getElementById('sel-clear');
+  if (!selMove) return;
+  selMove.addEventListener('change', () => {
+    const v = selMove.value;
+    if (!v) return;
+    const category = v === ' root' ? '' : v;
+    moveFiles(Array.from(selectedPaths), category);
+    selMove.selectedIndex = 0;
+  });
+  selDelete.addEventListener('click', deleteSelected);
+  selClear.addEventListener('click', clearSelection);
+  // Escape clears selection; Delete key deletes it.
+  document.addEventListener('keydown', (e) => {
+    if (!selectedPaths.size) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+    if (e.key === 'Escape') clearSelection();
+    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); deleteSelected(); }
   });
 })();
 
@@ -1957,6 +2676,263 @@ upSubmit.addEventListener('click', async () => {
     upSubmit.disabled = false;
   }
 });
+
+// ── Account modal ─────────────────────────────────────────────────────────
+const acctModal = document.getElementById('account-modal');
+const acctCurrent = document.getElementById('acct-current');
+const acctNew = document.getElementById('acct-new');
+const acctConfirm = document.getElementById('acct-confirm');
+const acctErr = document.getElementById('acct-err');
+const acctOk = document.getElementById('acct-ok');
+const acctSubmit = document.getElementById('acct-submit');
+
+function openAccountModal() {
+  document.getElementById('account-who').textContent = (currentUser && currentUser.username) || '';
+  acctCurrent.value = ''; acctNew.value = ''; acctConfirm.value = '';
+  acctErr.style.display = 'none'; acctOk.style.display = 'none';
+  acctModal.style.display = '';
+  setTimeout(() => acctCurrent.focus(), 30);
+}
+function closeAccountModal() { acctModal.style.display = 'none'; }
+window.closeAccountModal = closeAccountModal;
+document.getElementById('btn-account').addEventListener('click', openAccountModal);
+
+acctSubmit.addEventListener('click', async () => {
+  acctErr.style.display = 'none'; acctOk.style.display = 'none';
+  const cur = acctCurrent.value;
+  const nw = acctNew.value;
+  const cf = acctConfirm.value;
+  if (!cur || !nw || !cf) {
+    acctErr.textContent = 'Fill in every field.'; acctErr.style.display = ''; return;
+  }
+  if (nw.length < 8) {
+    acctErr.textContent = 'New password must be at least 8 characters.'; acctErr.style.display = ''; return;
+  }
+  if (nw !== cf) {
+    acctErr.textContent = 'New passwords do not match.'; acctErr.style.display = ''; return;
+  }
+  if (nw === cur) {
+    acctErr.textContent = 'New password must differ from the current one.'; acctErr.style.display = ''; return;
+  }
+  acctSubmit.disabled = true;
+  try {
+    const r = await fetch('api/auth/change-password', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({current_password: cur, new_password: nw}),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw new Error(j.error || 'Could not update password');
+    acctOk.style.display = '';
+    acctCurrent.value = ''; acctNew.value = ''; acctConfirm.value = '';
+    showToast('Password updated', '🔒');
+  } catch (err) {
+    acctErr.textContent = err.message || 'Could not update password';
+    acctErr.style.display = '';
+  } finally {
+    acctSubmit.disabled = false;
+  }
+});
+[acctCurrent, acctNew, acctConfirm].forEach(el => {
+  el.addEventListener('keydown', (e) => { if (e.key === 'Enter') acctSubmit.click(); });
+});
+
+// ── Share modal ───────────────────────────────────────────────────────────
+const shareModal = document.getElementById('share-modal');
+const shareDocName = document.getElementById('share-doc-name');
+const shareUserInput = document.getElementById('share-user-input');
+const shareUserResults = document.getElementById('share-user-results');
+const shareUserList = document.getElementById('share-user-list');
+const shareLinkList = document.getElementById('share-link-list');
+const shareErr = document.getElementById('share-err');
+let shareUserDebounce = null;
+
+function openShareModal() {
+  if (!currentPath || currentOwner) return;
+  shareDocName.textContent = currentPath.split('/').pop();
+  shareUserInput.value = '';
+  shareUserResults.innerHTML = '';
+  shareUserResults.classList.remove('visible');
+  shareErr.style.display = 'none';
+  selectShareTab('user');
+  shareModal.style.display = '';
+  loadShareUserList();
+  loadShareLinkList();
+}
+function closeShareModal() { shareModal.style.display = 'none'; }
+window.openShareModal = openShareModal;
+window.closeShareModal = closeShareModal;
+
+function selectShareTab(name) {
+  document.querySelectorAll('.stab').forEach(t => t.classList.toggle('active', t.dataset.stab === name));
+  document.querySelectorAll('.spane').forEach(p => p.classList.toggle('active', p.dataset.spane === name));
+}
+document.querySelectorAll('.stab').forEach(t => t.addEventListener('click', () => selectShareTab(t.dataset.stab)));
+
+shareUserInput.addEventListener('input', () => {
+  clearTimeout(shareUserDebounce);
+  const q = shareUserInput.value.trim();
+  if (!q) { shareUserResults.innerHTML = ''; shareUserResults.classList.remove('visible'); return; }
+  shareUserDebounce = setTimeout(async () => {
+    try {
+      const r = await fetch(`api/users/search?q=${encodeURIComponent(q)}`);
+      const items = await r.json();
+      shareUserResults.innerHTML = '';
+      if (!items.length) {
+        shareUserResults.innerHTML = '<div class="ur-empty">No matches</div>';
+      } else {
+        for (const it of items) {
+          const row = document.createElement('div');
+          row.className = 'ur-item';
+          row.textContent = '@' + it.username;
+          row.addEventListener('click', () => grantShareTo(it.username));
+          shareUserResults.appendChild(row);
+        }
+      }
+      shareUserResults.classList.add('visible');
+    } catch (_) {
+      shareUserResults.innerHTML = '<div class="ur-empty">Search failed</div>';
+      shareUserResults.classList.add('visible');
+    }
+  }, 150);
+});
+
+document.addEventListener('click', (e) => {
+  if (shareModal.style.display === 'none') return;
+  if (!e.target.closest || !e.target.closest('.ta-wrap')) {
+    shareUserResults.classList.remove('visible');
+  }
+});
+
+async function grantShareTo(username) {
+  try {
+    const r = await fetch('api/shares', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({doc_path: currentPath, username}),
+    });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || 'Could not share');
+    showToast(j.ok ? `Shared with @${j.username}` : `@${j.username} already had access`, '⤴');
+    shareUserInput.value = '';
+    shareUserResults.classList.remove('visible');
+    loadShareUserList();
+  } catch (err) {
+    shareErr.textContent = err.message || 'Could not share';
+    shareErr.style.display = '';
+  }
+}
+
+async function revokeShareFrom(username) {
+  try {
+    await fetch('api/shares/revoke', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({doc_path: currentPath, username}),
+    });
+    showToast(`Revoked @${username}`, '×');
+    loadShareUserList();
+  } catch (_) {}
+}
+
+async function loadShareUserList() {
+  try {
+    const r = await fetch(`api/shares?doc_path=${encodeURIComponent(currentPath)}`);
+    const j = await r.json();
+    shareUserList.innerHTML = '';
+    const granted = j.granted || [];
+    if (!granted.length) {
+      shareUserList.innerHTML = '<div class="share-empty">No one yet</div>';
+      return;
+    }
+    for (const g of granted) {
+      const row = document.createElement('div');
+      row.className = 'share-row';
+      const dateStr = new Date(g.created_at * 1000).toLocaleDateString();
+      row.innerHTML = `
+        <div class="sr-main">@${escapeHtml(g.username)}<span class="sr-sub">since ${escapeHtml(dateStr)}</span></div>
+        <button class="sr-x" type="button">Revoke</button>
+      `;
+      row.querySelector('.sr-x').addEventListener('click', () => revokeShareFrom(g.username));
+      shareUserList.appendChild(row);
+    }
+  } catch (_) {
+    shareUserList.innerHTML = '<div class="share-empty">Could not load</div>';
+  }
+}
+
+async function loadShareLinkList() {
+  try {
+    const r = await fetch(`api/share-links?doc_path=${encodeURIComponent(currentPath)}`);
+    const links = await r.json();
+    shareLinkList.innerHTML = '';
+    if (!links.length) {
+      shareLinkList.innerHTML = '<div class="share-empty">No links yet</div>';
+      return;
+    }
+    for (const l of links) {
+      const row = document.createElement('div');
+      row.className = 'share-row' + (l.revoked ? ' revoked' : '');
+      const url = buildShareUrl(l.token);
+      const expRem = (l.expires_at * 1000) - Date.now();
+      const expLabel = l.revoked ? 'revoked' : (expRem <= 0 ? 'expired' : `expires in ${fmtRemaining(expRem)}`);
+      row.innerHTML = `
+        <div class="sr-main">${escapeHtml(l.token.slice(0, 12))}…<span class="sr-sub">${escapeHtml(expLabel)}</span></div>
+        <button class="sr-copy" type="button" data-url="${url}">Copy</button>
+        <button class="sr-x" type="button">Revoke</button>
+      `;
+      row.querySelector('.sr-copy').addEventListener('click', async (e) => {
+        const u = e.currentTarget.dataset.url;
+        try { await navigator.clipboard.writeText(u); showToast('Copied link', '✓'); } catch (_) {}
+      });
+      const xBtn = row.querySelector('.sr-x');
+      if (xBtn) xBtn.addEventListener('click', () => revokeLink(l.token));
+      shareLinkList.appendChild(row);
+    }
+  } catch (_) {
+    shareLinkList.innerHTML = '<div class="share-empty">Could not load</div>';
+  }
+}
+
+function buildShareUrl(token) {
+  // Subpath-aware: location.pathname is the app's mount (e.g. "/docs/" or "/").
+  const base = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
+  return `${location.origin}${base}share/${encodeURIComponent(token)}`;
+}
+
+function fmtRemaining(ms) {
+  const m = Math.floor(ms / 60000);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  if (d >= 1) return d + 'd ' + (h % 24) + 'h';
+  if (h >= 1) return h + 'h ' + (m % 60) + 'm';
+  return m + 'm';
+}
+
+document.getElementById('share-link-create').addEventListener('click', async () => {
+  try {
+    const r = await fetch('api/share-links', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({doc_path: currentPath}),
+    });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || 'Could not create link');
+    const url = buildShareUrl(j.token);
+    try { await navigator.clipboard.writeText(url); showToast('Link copied', '🔗'); } catch (_) { showToast('Link created', '🔗'); }
+    loadShareLinkList();
+  } catch (err) {
+    shareErr.textContent = err.message || 'Could not create link';
+    shareErr.style.display = '';
+  }
+});
+
+async function revokeLink(token) {
+  try {
+    await fetch('api/share-links/revoke', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({token}),
+    });
+    showToast('Link revoked', '×');
+    loadShareLinkList();
+  } catch (_) {}
+}
 
 // ── Boot ───────────────────────────────────────────────────────────────────
 init();

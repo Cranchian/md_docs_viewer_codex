@@ -21,6 +21,7 @@
     --text-1:        #E9E4F5;
     --text-2:        #9C8FB8;
     --text-3:        #6B5F87;
+    --green:         #4ADE80;
     --red:           #EF4444;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,12 +30,9 @@
     font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6;
   }
   body {
-    /* Subtle vertical gradient — no heavy radial drama */
-    background-image:
-      linear-gradient(180deg, var(--bg) 0%, #0A0518 100%);
-    overflow: hidden; position: relative;
+    background-image: linear-gradient(180deg, var(--bg) 0%, #0A0518 100%);
+    overflow: auto; position: relative;
   }
-  /* Single soft halo behind the card — restrained */
   body::before {
     content: '';
     position: fixed; left: 50%; top: 32%;
@@ -52,8 +50,8 @@
     background: linear-gradient(180deg, rgba(15,8,32,0.92) 0%, rgba(10,5,24,0.92) 100%);
     border: 1px solid var(--border-strong);
     border-radius: 16px;
-    padding: 36px 34px 28px;
-    max-width: 400px; width: 100%;
+    padding: 32px 32px 26px;
+    max-width: 420px; width: 100%;
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,0.04),
       0 0 0 1px rgba(168,85,247,0.08),
@@ -63,10 +61,9 @@
     -webkit-backdrop-filter: blur(20px) saturate(140%);
   }
 
-  /* Header — sigil + wordmark, matches topbar in app */
   .brand {
     display: flex; align-items: center; gap: 14px;
-    padding-bottom: 22px; margin-bottom: 22px;
+    padding-bottom: 20px; margin-bottom: 18px;
     border-bottom: 1px solid var(--border);
   }
   .sigil {
@@ -97,22 +94,50 @@
     text-shadow: 0 0 24px rgba(192,132,252,0.22);
   }
 
-  /* Form */
+  /* Tabs */
+  .tabs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: rgba(6,3,15,0.5);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px;
+    margin-bottom: 22px;
+  }
+  .tab {
+    padding: 9px 12px; border: 0; background: transparent;
+    color: var(--text-3); cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: .22em; text-transform: uppercase;
+    border-radius: 999px;
+    transition: color .15s, background .15s, box-shadow .15s;
+  }
+  .tab.active {
+    color: var(--text-1);
+    background: linear-gradient(180deg, rgba(168,85,247,0.18), rgba(124,58,237,0.18));
+    box-shadow: inset 0 0 0 1px var(--border-strong), 0 0 22px -8px rgba(192,132,252,0.5);
+  }
+  .tab:hover:not(.active) { color: var(--text-2); }
+
+  .pane { display: none; }
+  .pane.active { display: block; }
+
   .lead {
     font-family: 'Syne', sans-serif; font-weight: 600;
-    font-size: 22px; color: var(--text-1); letter-spacing: -.01em;
+    font-size: 20px; color: var(--text-1); letter-spacing: -.01em;
     margin-bottom: 4px;
   }
   .lead-sub {
-    font-size: 13px; color: var(--text-2);
-    margin-bottom: 22px;
+    font-size: 12.5px; color: var(--text-2);
+    margin-bottom: 18px;
   }
   label {
     display: block; font-size: 10.5px; font-weight: 600;
     letter-spacing: .18em; text-transform: uppercase;
-    color: var(--text-3); margin-top: 16px; margin-bottom: 7px;
+    color: var(--text-3); margin-top: 14px; margin-bottom: 6px;
     font-family: 'JetBrains Mono', monospace;
   }
+  label .hint { text-transform: none; letter-spacing: 0; opacity: .65; }
   input {
     width: 100%; background: rgba(6,3,15,0.6);
     border: 1px solid var(--border);
@@ -126,8 +151,24 @@
     box-shadow: 0 0 0 3px rgba(168,85,247,0.18);
     background: rgba(15,8,32,0.85);
   }
+  /* honeypot */
+  .hp {
+    position: absolute; left: -9999px; height: 0; width: 0;
+    opacity: 0; pointer-events: none;
+  }
+  /* challenge row */
+  .challenge-row {
+    display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: end;
+  }
+  .challenge-row .q {
+    background: rgba(6,3,15,0.6); border: 1px solid var(--border);
+    border-radius: 10px; padding: 11px 13px;
+    font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    color: var(--text-1); letter-spacing: .04em; min-height: 42px;
+    display: grid; place-items: center;
+  }
   button.submit {
-    width: 100%; margin-top: 24px;
+    width: 100%; margin-top: 22px;
     height: 44px; padding: 0 16px;
     background: linear-gradient(180deg, var(--accent-hi) 0%, var(--accent-deep) 100%);
     color: white; border: 1px solid var(--accent);
@@ -155,6 +196,11 @@
     background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.32);
     color: #fda4a4; font-size: 12.5px;
   }
+  .ok {
+    margin-top: 14px; padding: 10px 12px; border-radius: 10px;
+    background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.32);
+    color: #a7f3d0; font-size: 12.5px;
+  }
   .foot {
     margin-top: 22px; padding-top: 16px;
     border-top: 1px solid var(--border);
@@ -165,8 +211,8 @@
   .foot .gold { color: var(--gold); opacity: .8; }
 
   @media (max-width: 480px) {
-    .card { padding: 28px 22px 22px; }
-    .lead { font-size: 19px; }
+    .card { padding: 26px 22px 22px; }
+    .lead { font-size: 18px; }
   }
 </style>
 </head>
@@ -185,52 +231,157 @@
         </svg>
       </div>
       <div class="word">
-        <span class="eyebrow">Codex</span>
+        <span class="eyebrow">Ccodex</span>
         <span class="wordmark">{{PROJECT_TITLE}}</span>
       </div>
     </div>
 
-    <div class="lead">Welcome back.</div>
-    <div class="lead-sub">Sign in to continue.</div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="signin" role="tab">Sign in</button>
+      <button class="tab" data-tab="signup" role="tab">Create</button>
+    </div>
 
-    <form id="f" autocomplete="on">
-      <label for="u">Username</label>
-      <input id="u" name="username" autocomplete="username" autofocus required spellcheck="false">
-      <label for="p">Password</label>
-      <input id="p" name="password" type="password" autocomplete="current-password" required>
-      <button type="submit" id="b" class="submit">Enter</button>
-    </form>
-    <div id="e"></div>
+    <!-- SIGN IN PANE -->
+    <div class="pane active" data-pane="signin">
+      <div class="lead">Welcome back.</div>
+      <div class="lead-sub">Sign in to your library.</div>
+      <form id="f-signin" autocomplete="on">
+        <label for="u-in">Username</label>
+        <input id="u-in" name="username" autocomplete="username" autofocus required spellcheck="false">
+        <label for="p-in">Password</label>
+        <input id="p-in" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit" id="b-in" class="submit">Enter</button>
+      </form>
+      <div id="e-in"></div>
+    </div>
+
+    <!-- SIGN UP PANE -->
+    <div class="pane" data-pane="signup">
+      <div class="lead">Create an account.</div>
+      <div class="lead-sub">Your docs, your space. Free to make.</div>
+      <form id="f-signup" autocomplete="off">
+        <label for="u-up">Username <span class="hint">— 3–20 chars, letters · digits · _ · -</span></label>
+        <input id="u-up" name="username" required spellcheck="false" minlength="3" maxlength="20"
+               pattern="[A-Za-z0-9_-]+">
+        <label for="p-up">Password <span class="hint">— at least 8 characters</span></label>
+        <input id="p-up" name="password" type="password" autocomplete="new-password" required minlength="8">
+
+        <label>Verify <span class="hint">— quick check, not a bot</span></label>
+        <div class="challenge-row">
+          <div class="q" id="ch-q">Loading…</div>
+          <input id="ch-a" name="challenge_answer" inputmode="numeric" pattern="-?[0-9]+" required>
+        </div>
+
+        <!-- honeypot, hidden from real users -->
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <button type="submit" id="b-up" class="submit">Create account</button>
+      </form>
+      <div id="e-up"></div>
+    </div>
+
     <p class="foot">Stays signed in · <span class="gold">10 days</span></p>
   </div>
 </div>
 <script>
   function escapeHtml(s){return String(s).replace(/[<>&"]/g,function(c){return({"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"})[c];});}
-  const f = document.getElementById('f');
-  const b = document.getElementById('b');
-  const e = document.getElementById('e');
-  f.addEventListener('submit', async function(ev){
-    ev.preventDefault();
-    e.innerHTML = '';
-    b.disabled = true;
-    const label = b.textContent;
-    b.textContent = 'Checking…';
+
+  function urlSearch(){return new URLSearchParams(location.search);}
+  // Default to the app's own URL (e.g. /docs/), NOT the domain root — the login
+  // page is served in-place at the gated path, so reloading it lands in the app.
+  function returnPath(){ const r = urlSearch().get('return'); return r && r.startsWith('/') ? r : (location.pathname + location.search); }
+
+  // --- tab switching with hash persistence ---
+  const tabs = document.querySelectorAll('.tab');
+  const panes = document.querySelectorAll('.pane');
+  let challengeToken = null;
+
+  async function loadChallenge() {
+    const q = document.getElementById('ch-q');
+    const a = document.getElementById('ch-a');
+    q.textContent = 'Loading…';
+    a.value = '';
+    challengeToken = null;
     try {
-      const fd = new FormData(f);
+      const r = await fetch('api/auth/challenge', {credentials: 'same-origin'});
+      const j = await r.json();
+      q.textContent = j.question;
+      challengeToken = j.token;
+    } catch (_) {
+      q.textContent = 'Could not load challenge';
+    }
+  }
+
+  function selectTab(name) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    panes.forEach(p => p.classList.toggle('active', p.dataset.pane === name));
+    if (name === 'signup' && !challengeToken) loadChallenge();
+    if (name === 'signup') setTimeout(() => document.getElementById('u-up').focus(), 30);
+    if (name === 'signin') setTimeout(() => document.getElementById('u-in').focus(), 30);
+    history.replaceState(null, '', '#' + name);
+  }
+  tabs.forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+  if (location.hash === '#signup') selectTab('signup');
+
+  // --- sign in ---
+  const fIn = document.getElementById('f-signin');
+  const bIn = document.getElementById('b-in');
+  const eIn = document.getElementById('e-in');
+  fIn.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    eIn.innerHTML = ''; bIn.disabled = true;
+    const label = bIn.textContent; bIn.textContent = 'Checking…';
+    try {
+      const fd = new FormData(fIn);
       const res = await fetch('api/auth/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({username: fd.get('username'), password: fd.get('password')}),
         credentials: 'same-origin',
       });
-      if (res.ok) { location.reload(); return; }
+      if (res.ok) { location.assign(returnPath()); return; }
       let msg = 'Invalid credentials.';
       try { const j = await res.json(); if (j && j.error) msg = j.error; } catch(_) {}
-      e.innerHTML = '<div class="err">' + escapeHtml(msg) + '</div>';
+      eIn.innerHTML = '<div class="err">' + escapeHtml(msg) + '</div>';
     } catch (err) {
-      e.innerHTML = '<div class="err">Network error. Try again.</div>';
+      eIn.innerHTML = '<div class="err">Network error. Try again.</div>';
     } finally {
-      b.disabled = false; b.textContent = label;
+      bIn.disabled = false; bIn.textContent = label;
+    }
+  });
+
+  // --- sign up ---
+  const fUp = document.getElementById('f-signup');
+  const bUp = document.getElementById('b-up');
+  const eUp = document.getElementById('e-up');
+  fUp.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    eUp.innerHTML = ''; bUp.disabled = true;
+    const label = bUp.textContent; bUp.textContent = 'Creating…';
+    try {
+      const fd = new FormData(fUp);
+      const claim = urlSearch().get('claim') || '';
+      const res = await fetch('api/auth/signup', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          username: fd.get('username'),
+          password: fd.get('password'),
+          website: fd.get('website') || '',
+          challenge_token: challengeToken || '',
+          challenge_answer: fd.get('challenge_answer'),
+          claim_link: claim,
+        }),
+        credentials: 'same-origin',
+      });
+      if (res.ok) { location.assign(returnPath()); return; }
+      let msg = 'Sign up failed.';
+      try { const j = await res.json(); if (j && j.error) msg = j.error; } catch(_) {}
+      eUp.innerHTML = '<div class="err">' + escapeHtml(msg) + '</div>';
+      // Refresh challenge on any failure so the user gets a fresh question.
+      loadChallenge();
+    } catch (err) {
+      eUp.innerHTML = '<div class="err">Network error. Try again.</div>';
+    } finally {
+      bUp.disabled = false; bUp.textContent = label;
     }
   });
 </script>

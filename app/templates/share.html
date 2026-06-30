@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_TITLE}} — Shared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+<style>
+  :root {
+    --bg:            #06030F;
+    --bg-deep:       #040108;
+    --bg-panel:      #0F0820;
+    --bg-elevated:   #1A0F33;
+    --border:        rgba(168, 85, 247, 0.18);
+    --border-strong: rgba(192, 132, 252, 0.35);
+    --accent:        #A855F7;
+    --accent-hi:     #C084FC;
+    --accent-deep:   #7C3AED;
+    --gold:          #FBE5A4;
+    --text-1:        #E9E4F5;
+    --text-2:        #9C8FB8;
+    --text-3:        #6B5F87;
+    --red:           #EF4444;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg); color: var(--text-1);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.65;
+    min-height: 100%;
+  }
+  body {
+    background-image: linear-gradient(180deg, var(--bg) 0%, #0A0518 100%);
+    padding: 28px 22px 80px;
+  }
+  body::before {
+    content: ''; position: fixed; left: 50%; top: -10%;
+    width: 720px; height: 720px; transform: translate(-50%, 0);
+    background: radial-gradient(circle, rgba(168,85,247,0.10), transparent 65%);
+    z-index: 0; pointer-events: none;
+  }
+  .shell { max-width: 880px; margin: 0 auto; position: relative; z-index: 1; }
+
+  /* Header */
+  header.bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    background: linear-gradient(180deg, rgba(15,8,32,0.85), rgba(10,5,24,0.85));
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+  .sigil {
+    width: 34px; height: 34px; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 30% 30%, rgba(192,132,252,0.28), rgba(168,85,247,0.05) 60%, transparent 75%);
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+    color: var(--accent-hi);
+  }
+  .brand-text { display: flex; flex-direction: column; gap: 3px; line-height: 1; min-width: 0; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; font-weight: 500;
+    letter-spacing: .28em; text-transform: uppercase;
+    color: var(--accent); opacity: .9;
+  }
+  .doc-title {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px;
+    letter-spacing: .04em;
+    color: var(--text-1);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .meta {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--text-2);
+    text-align: right; white-space: nowrap;
+  }
+  .meta .owner { color: var(--accent-hi); }
+  .meta .exp { color: var(--text-3); }
+
+  /* Auth CTA card */
+  .cta {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 14px; padding: 14px 18px;
+    background: linear-gradient(180deg, rgba(168,85,247,0.07), rgba(124,58,237,0.07));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-1);
+  }
+  .cta .msg { font-size: 13px; color: var(--text-2); flex: 1; }
+  .cta .msg b { color: var(--text-1); font-weight: 600; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 36px; padding: 0 16px;
+    border-radius: 999px;
+    font-family: 'Syne', sans-serif; font-weight: 600;
+    font-size: 11.5px; letter-spacing: .22em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; border: 1px solid var(--border-strong);
+    transition: box-shadow .15s, transform .08s;
+  }
+  .btn.primary {
+    background: linear-gradient(180deg, var(--accent-hi) 0%, var(--accent-deep) 100%);
+    color: white; border-color: var(--accent);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 22px -8px rgba(124,58,237,0.5);
+  }
+  .btn.ghost {
+    background: rgba(6,3,15,0.5); color: var(--text-1);
+  }
+  .btn:hover { transform: translateY(-1px); }
+
+  /* Markdown */
+  article.doc {
+    margin-top: 24px; padding: 26px 28px 36px;
+    background: linear-gradient(180deg, rgba(15,8,32,0.82), rgba(10,5,24,0.82));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+  article.doc h1, article.doc h2, article.doc h3, article.doc h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    color: var(--text-1); margin: 1.4em 0 .55em; letter-spacing: -.005em;
+  }
+  article.doc h1 { font-size: 28px; }
+  article.doc h2 { font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  article.doc h3 { font-size: 17px; }
+  article.doc p, article.doc li { color: var(--text-1); }
+  article.doc a { color: var(--accent-hi); text-decoration: none; border-bottom: 1px dashed rgba(192,132,252,0.4); }
+  article.doc a:hover { color: var(--accent); }
+  article.doc code {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    background: rgba(168,85,247,0.10); border: 1px solid var(--border);
+    padding: 1px 6px; border-radius: 5px; color: var(--accent-hi);
+  }
+  article.doc pre { background: var(--bg-deep); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; overflow: auto; margin: 12px 0; }
+  article.doc pre code { background: transparent; border: 0; padding: 0; color: var(--text-1); font-size: 13px; }
+  article.doc blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 4px 16px; margin: 12px 0;
+    background: rgba(168,85,247,0.04);
+    color: var(--text-2);
+  }
+  article.doc table { border-collapse: collapse; margin: 12px 0; width: 100%; }
+  article.doc th, article.doc td { border: 1px solid var(--border); padding: 8px 10px; }
+  article.doc th { background: rgba(168,85,247,0.08); color: var(--text-1); }
+  article.doc ul, article.doc ol { padding-left: 24px; }
+  article.doc img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+  article.doc hr { border: 0; border-top: 1px solid var(--border); margin: 18px 0; }
+  .mermaid { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin: 12px 0; }
+
+  .state-msg {
+    margin-top: 22px; padding: 36px 28px; text-align: center;
+    background: linear-gradient(180deg, rgba(15,8,32,0.82), rgba(10,5,24,0.82));
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+  }
+  .state-msg h2 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px;
+    color: var(--text-1); margin-bottom: 8px;
+  }
+  .state-msg p { color: var(--text-2); font-size: 14px; max-width: 460px; margin: 0 auto; }
+
+  footer.foot {
+    margin-top: 28px; text-align: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--text-3); letter-spacing: .26em; text-transform: uppercase;
+  }
+  footer.foot .gold { color: var(--gold); opacity: .85; }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 60px; }
+    header.bar { flex-wrap: wrap; }
+    .meta { margin-left: 0; width: 100%; text-align: left; padding-top: 4px; border-top: 1px solid var(--border); }
+    article.doc { padding: 18px 18px 28px; }
+    .cta { flex-direction: column; align-items: stretch; }
+    .cta .actions { display: flex; gap: 8px; }
+    .btn { flex: 1; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="bar">
+    <div class="sigil" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M3.5 5.5C3.5 4.67 4.17 4 5 4h7.5l4 3v8.5c0 .83-.67 1.5-1.5 1.5H5c-.83 0-1.5-.67-1.5-1.5V5.5Z"
+              stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M12.5 4v3.5h4" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M15.7 2.2l.5 1.4 1.4.5-1.4.5-.5 1.4-.5-1.4-1.4-.5 1.4-.5z" fill="#FBE5A4" opacity=".95"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="eyebrow">Ccodex · Shared</span>
+      <span class="doc-title" id="doc-title">document</span>
+    </div>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div id="cta-host"></div>
+  <div id="main-host"></div>
+
+  <footer class="foot">CCODEX · <span class="gold">Read-only · Link share</span></footer>
+</div>
+
+<script>
+  const STATE = "__STATE__";
+  const CTX = __CTX__;
+</script>
+<script>
+  function escapeHtml(s){return String(s).replace(/[<>&"]/g,function(c){return({"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"})[c];});}
+  // App mount path (subpath-aware): strip "/share/<token>" off location.pathname.
+  function appRoot() {
+    const i = location.pathname.indexOf('/share/');
+    return i >= 0 ? location.pathname.slice(0, i + 1) : '/';
+  }
+
+  function fmtDuration(ms) {
+    if (ms <= 0) return 'expired';
+    const m = Math.floor(ms / 60000);
+    const h = Math.floor(m / 60);
+    const d = Math.floor(h / 24);
+    if (d >= 1) return d + 'd ' + (h % 24) + 'h';
+    if (h >= 1) return h + 'h ' + (m % 60) + 'm';
+    return m + 'm';
+  }
+
+  document.getElementById('doc-title').textContent = CTX.doc_name || 'document';
+
+  if (STATE !== 'ok') {
+    const ctaHost = document.getElementById('cta-host');
+    const mainHost = document.getElementById('main-host');
+    let title = 'This link is not available';
+    let body = 'It may have been revoked or removed.';
+    if (STATE === 'expired') { title = 'This link has expired'; body = 'Ask the owner for a fresh link.'; }
+    if (STATE === 'revoked') { title = 'This link was revoked'; body = 'The owner has revoked guest access.'; }
+    if (STATE === 'missing') { title = 'Link not found'; body = 'Double-check the URL.'; }
+    mainHost.innerHTML = '<div class="state-msg"><h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(body) + '</p></div>';
+  } else {
+    const meta = document.getElementById('meta');
+    const remainingMs = (CTX.expires_at * 1000) - Date.now();
+    meta.innerHTML =
+      '<div><span class="owner">@' + escapeHtml(CTX.owner) + '</span></div>' +
+      '<div class="exp">Expires in ' + escapeHtml(fmtDuration(remainingMs)) + '</div>';
+
+    const ctaHost = document.getElementById('cta-host');
+    const ret = encodeURIComponent(appRoot() + 'share/' + CTX.token);
+    const claim = encodeURIComponent(CTX.token);
+    ctaHost.innerHTML =
+      '<div class="cta">' +
+        '<div class="msg"><b>Want to keep this document?</b> Create an account — it will be saved to your library.</div>' +
+        '<div class="actions">' +
+          '<a class="btn ghost" href="' + appRoot() + '?return=' + ret + '">Sign in</a>' +
+          '<a class="btn primary" href="' + appRoot() + '?return=' + ret + '&claim=' + claim + '#signup">Create account</a>' +
+        '</div>' +
+      '</div>';
+
+    const mainHost = document.getElementById('main-host');
+    mainHost.innerHTML = '<article class="doc" id="doc"><p style="color:var(--text-3);">Loading document…</p></article>';
+    fetchContent();
+  }
+
+  async function fetchContent() {
+    try {
+      const r = await fetch(location.pathname.replace(/\/$/, '') + '/content', {credentials: 'same-origin'});
+      if (!r.ok) throw new Error('not_ok');
+      const text = await r.text();
+      renderMarkdown(text);
+    } catch (e) {
+      document.getElementById('doc').innerHTML =
+        '<p style="color:var(--red);">Could not load document.</p>';
+    }
+  }
+
+  function renderMarkdown(text) {
+    const target = document.getElementById('doc');
+    // Configure marked + highlight before parse.
+    if (window.marked && window.hljs) {
+      marked.setOptions({
+        gfm: true, breaks: false, headerIds: true, mangle: false,
+        highlight: function(code, lang) {
+          try {
+            if (lang && hljs.getLanguage(lang)) return hljs.highlight(code, {language: lang}).value;
+            return hljs.highlightAuto(code).value;
+          } catch (_) { return code; }
+        },
+      });
+      // Replace mermaid blocks BEFORE marked renders, so we keep raw source.
+      const mermaidBlocks = [];
+      const placeholder = (i) => '\n\n@@MERMAID_BLOCK_' + i + '@@\n\n';
+      const replaced = text.replace(/```mermaid\s*\n([\s\S]*?)```/g, function(_, code) {
+        mermaidBlocks.push(code);
+        return placeholder(mermaidBlocks.length - 1);
+      });
+      let html = marked.parse(replaced);
+      html = html.replace(/@@MERMAID_BLOCK_(\d+)@@/g, function(_, idx) {
+        const code = mermaidBlocks[parseInt(idx)];
+        return '<div class="mermaid">' + escapeHtml(code) + '</div>';
+      });
+      target.innerHTML = html;
+      // Init mermaid after insertion
+      if (window.mermaid) {
+        try {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+              background:'#06030F', primaryColor:'#1A0F33', primaryTextColor:'#E9E4F5',
+              primaryBorderColor:'#A855F7', lineColor:'#9C8FB8', secondaryColor:'#0F0820',
+              tertiaryColor:'#040108',
+            },
+          });
+          mermaid.run({nodes: target.querySelectorAll('.mermaid')});
+        } catch (_) {}
+      }
+    } else {
+      target.textContent = text;
+    }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+  // If the markdown JS arrived AFTER our render call, re-render now.
+  if (STATE === 'ok' && document.getElementById('doc')) {
+    // We rely on the page-load order — by the time these scripts execute,
+    // the fetchContent() above has likely fired but renderMarkdown may have
+    // hit the fallback branch. Re-fetch + render to be safe.
+    (async () => {
+      try {
+        const r = await fetch(location.pathname.replace(/\/$/, '') + '/content', {credentials: 'same-origin'});
+        if (r.ok) renderMarkdown(await r.text());
+      } catch (_) {}
+    })();
+  }
+</script>
+</body>
+</html>
